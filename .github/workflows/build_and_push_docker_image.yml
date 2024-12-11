@@ -1,16 +1,16 @@
-
 name: CI devops 2024 - Build and Push Docker Images
 
 on:
-    workflow_run:
-      workflows: ["CI devops 2024 - Test Backend"]
-      types:
-        - completed
+  workflow_run:
+    workflows: ["CI devops 2024 - Test Backend"]
+    types:
+      - completed  # S'assurer que le workflow est terminé
+      - success    # Le deuxième workflow ne se lancera que si le premier a réussi
 
 jobs:
   build-and-push-docker-image:
     runs-on: ubuntu-22.04
-    needs: test-backend
+    needs: test-backend  # Cela assure que le deuxième workflow attend le succès du premier
 
     steps:
       # Étape 1 : Connexion à DockerHub
