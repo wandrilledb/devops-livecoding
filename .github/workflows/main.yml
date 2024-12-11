@@ -33,3 +33,4 @@ jobs:
         echo "Maven clean install completed."
         mvn test
         echo "Maven tests completed."
+       working-directory: ./simple-api
