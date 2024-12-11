@@ -47,4 +47,5 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -e -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=wandrilledb_devops-livecoding \
-          -Dsonar.organization=wandrilleorga
+          -Dsonar.organization=your-organization-name \
+          -Dsonar.host.url=https://sonarcloud.io
