@@ -2,14 +2,14 @@
 name: CI devops 2024 - Build and Push Docker Images
 
 on:
-  push:
-    branches:
-      - main
+    workflow_run:
+      workflows: ["CI devops 2024 - Test Backend"]
+      types:
+        - completed
 
 jobs:
   build-and-push-docker-image:
     runs-on: ubuntu-22.04
-    needs: test-backend
 
     steps:
       # Étape 1 : Connexion à DockerHub
