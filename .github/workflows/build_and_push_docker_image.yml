@@ -1,44 +1,64 @@
 name: CI devops 2024 - Build and Push Docker Images
 
+# Workflow trigger
 on:
   workflow_run:
+    # This workflow is triggered after the completion of the "CI devops 2024 - Test Backend" workflow
     workflows: ["CI devops 2024 - Test Backend"]
+    # The workflow is triggered when the above workflow finishes successfully (types: completed)
     types:
       - completed
 
 jobs:
+  # Definition of the 'build-and-push-docker-image' job
   build-and-push-docker-image:
+    # Specifies the environment to run the job on (Ubuntu 22.04)
     runs-on: ubuntu-22.04
-    # Aucune dépendance ici car le workflow lui-même est déclenché après le premier workflow.
+    # No dependency here, as this workflow is triggered after the completion of the first workflow.
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repository
+        # Use the 'checkout' action to retrieve the code from the repository
         uses: actions/checkout@v2
 
-      # Étape 1 : Connexion à DockerHub
+      # Step 2: DockerHub Login
       - name: Login to DockerHub
+        # Login to DockerHub using credentials stored in GitHub Secrets
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Étape 2 : Construction et push de l'image backend
+      # Step 3: Build and Push the Backend Docker Image
       - name: Build image and push backend
+        # Use the 'docker/build-push-action' to build and push the backend Docker image
         uses: docker/build-push-action@v3
         with:
+          # Set the context (path to the Dockerfile and necessary files for the backend)
           context: ./simple-api
+          # Tag the image with the DockerHub username and the 'latest' tag
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
+          # Push the image to DockerHub after building it
           push: true
 
-      # Étape 3 : Construction et push de l'image database
+      # Step 4: Build and Push the Database Docker Image
       - name: Build image and push database
+        # Use the 'docker/build-push-action' to build and push the database Docker image
         uses: docker/build-push-action@v3
         with:
+          # Set the context (path to the Dockerfile and necessary files for the database)
           context: ./database
+          # Tag the image with the DockerHub username and the 'latest' tag
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
+          # Push the image to DockerHub after building it
           push: true
 
-      # Étape 4 : Construction et push de l'image httpd
+      # Step 5: Build and Push the HTTP Server Docker Image
       - name: Build image and push httpd
+        # Use the 'docker/build-push-action' to build and push the HTTP server Docker image
         uses: docker/build-push-action@v3
         with:
+          # Set the context (path to the Dockerfile and necessary files for the HTTP server)
           context: ./http-server
+          # Tag the image with the DockerHub username and the 'latest' tag
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
+          # Push the image to DockerHub after building it
           push: true

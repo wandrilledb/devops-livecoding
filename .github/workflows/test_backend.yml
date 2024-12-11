@@ -1,48 +1,71 @@
 name: CI devops 2024 - Test Backend
 
+# Workflow triggers
 on:
+  # The workflow will trigger when there is a push to the following branches
   push:
     branches:
-      - main
-      - develop
+      - main          # Main branch for production
+      - develop       # Development branch
+  # The workflow will also trigger when a pull request is opened or updated targeting these branches
   pull_request:
     branches:
-      - main
-      - develop
+      - main          # Main branch for production
+      - develop       # Development branch
 
 jobs:
+  # Definition of the 'test-backend' job
   test-backend:
+    # Specifies the environment to run the job on (Ubuntu 22.04)
     runs-on: ubuntu-22.04
 
     steps:
-      # Étape 1 : Vérification du code source
+      # Step 1: Checkout the source code
       - name: Checkout repository
+        # Using the action to check out the code from the repository
         uses: actions/checkout@v2.5.0
 
-      # Étape 2 : Configuration de JDK 17
+      # Step 2: Set up JDK 17
       - name: Set up JDK 17
+        # Using the action to configure Java 17
         uses: actions/setup-java@v3
         with:
+          # Specifies the Java distribution to use (Adoptium Temurin here)
           distribution: 'temurin'
+          # Specifies the version of Java
           java-version: '17'
 
+      # Step 3: Cache SonarQube packages
       - name: Cache SonarQube packages
+        # Using the cache action to cache SonarQube dependencies to speed up future builds
         uses: actions/cache@v4
         with:
+          # Path to SonarQube's cache directory
           path: ~/.sonar/cache
+          # Cache key to uniquely identify the cache (based on the OS)
           key: ${{ runner.os }}-sonar
+          # Restore cache using a fallback key if the exact key is not found
           restore-keys: ${{ runner.os }}-sonar
 
+      # Step 4: Cache Maven dependencies
       - name: Cache Maven packages
+        # Using the cache action to cache Maven dependencies to speed up future builds
         uses: actions/cache@v4
         with:
+          # Path to Maven's local repository (cache directory)
           path: ~/.m2
+          # Cache key to uniquely identify the cache (based on the OS and pom.xml file hash)
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          # Restore cache using a fallback key if the exact key is not found
           restore-keys: ${{ runner.os }}-m2
-        
+
+      # Step 5: Build and analyze with Maven
       - name: Build and analyze
+        # Set the working directory to the 'simple-api' folder (where the pom.xml file is located)
         working-directory: ./simple-api
+        # Set environment variables for GitHub and SonarQube authentication tokens
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # GitHub token for authentication
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}     # SonarQube token for analysis
+        # Run the Maven command to clean, build, and run tests, then perform SonarQube analysis
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=wandrilledb_devops-livecoding
