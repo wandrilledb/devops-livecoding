@@ -10,6 +10,7 @@ on:
 jobs:
   build-and-push-docker-image:
     runs-on: ubuntu-22.04
+    needs: test-backend
 
     steps:
       # Étape 1 : Connexion à DockerHub
