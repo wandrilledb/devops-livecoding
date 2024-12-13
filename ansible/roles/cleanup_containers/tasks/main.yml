@@ -1,0 +1,7 @@
+- name: Stop all running containers
+  shell: docker stop $(docker ps -q)
+  ignore_errors: true  # Ignore errors if there are no running containers
+
+- name: Remove all containers
+  shell: docker rm $(docker ps -aq)
+  ignore_errors: true  # Ignore errors if there are no containers to remove

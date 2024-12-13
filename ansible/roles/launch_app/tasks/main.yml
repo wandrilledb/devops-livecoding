@@ -1,0 +1,13 @@
+- name: Run Backend Application
+  community.docker.docker_container:
+    name: my-api
+    image: ryokenka/tp-devops-simple-api-backend
+    pull: always
+    ports:
+      - "8080:8080"
+    env:
+      DATABASE_HOST: my-db  # Name of the database container
+      DATABASE_PORT: "5432"  # Default PostgreSQL port
+    networks:
+      - name: my-network
+    state: started

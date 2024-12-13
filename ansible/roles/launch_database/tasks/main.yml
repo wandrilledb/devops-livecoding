@@ -1,0 +1,14 @@
+- name: Run Database
+  community.docker.docker_container:
+    name: my-db
+    image: wandrilledioubate/tp-devops-simple-api-database
+    pull: always
+    env:
+      POSTGRES_DB: db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pwd
+    networks:
+      - name: my-network
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    state: started

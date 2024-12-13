@@ -1,0 +1,4 @@
+- name: Create Docker volume
+  community.docker.docker_volume:
+    name: db-volume  # Match volume name from Docker Compose
+    state: present

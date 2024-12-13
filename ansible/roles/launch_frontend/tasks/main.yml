@@ -1,0 +1,12 @@
+- name: Run Frontend Application
+  community.docker.docker_container:
+    name: front
+    image: wandrilledioubate/tp-devops-simple-api-front
+    pull: always
+    ports:
+      - "90:90"
+    env:
+      VUE_APP_API_URL: "http://httpd/api"
+    networks:
+      - name: my-network
+    state: started
