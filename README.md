@@ -309,3 +309,10 @@ Run the playbook using the following command:
 ```bash
 ansible-playbook -i inventories/setup.yml playbook.yml
 ```
+
+![screen5.png](screen5.png)
+
+![screen6.png](screen6.png)
+
+
+
