@@ -1,7 +1,7 @@
 - name: Run Backend Application
   community.docker.docker_container:
     name: my-api
-    image: ryokenka/tp-devops-simple-api-backend
+    image: wandrilledioubate/tp-devops-simple-api-backend
     pull: always
     ports:
       - "8080:8080"

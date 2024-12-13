@@ -94,6 +94,8 @@ The `setup.yml` file is an **inventory** for Ansible to define hosts, groups, an
    ansible all -i inventories/setup.yml -m ping
    ```
 
+   ![screen1.png](screen1.png)
+
 2. **List Hosts in the Inventory**  
    Display all hosts in the `prod` group, as defined in `setup.yml`.
 
@@ -101,18 +103,25 @@ The `setup.yml` file is an **inventory** for Ansible to define hosts, groups, an
    ansible-inventory -i inventories/setup.yml --list
    ```
 
+   ![screen2.png](screen2.png)
+
 3. **View Host Variables**  
    Show variables for a specific host.
 
    ```bash
    ansible-inventory -i inventories/setup.yml --host hostname_or_IP
    ```
+
+   ![screen3.png](screen3.png)
+
 4. **Gather Distribution Facts**  
    Collect detailed information about the distribution of each host (e.g., OS version and name) using the `setup` module with a filter.
    
    ```bash
    ansible all -i inventories/setup.yml -m setup -a "filter=ansible_distribution*"
    ```
+
+   ![screen4.png](screen4.png)
 
 ## Deployment Documentation
 
