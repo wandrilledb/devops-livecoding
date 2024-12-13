@@ -1,7 +1,7 @@
 - name: Run Proxy
   community.docker.docker_container:
     name: httpd
-    image: ryokenka/tp-devops-simple-api-httpd
+    image: wandrilledioubate/tp-devops-httpd:latest
     pull: always
     ports:
       - "80:80"

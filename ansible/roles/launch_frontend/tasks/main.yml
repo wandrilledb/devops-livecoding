@@ -1,7 +1,7 @@
 - name: Run Frontend Application
   community.docker.docker_container:
     name: front
-    image: wandrilledioubate/tp-devops-simple-api-front
+    image: wandrilledioubate/tp-devops-httpd:latest
     pull: always
     ports:
       - "90:90"

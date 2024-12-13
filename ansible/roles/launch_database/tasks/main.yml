@@ -1,7 +1,7 @@
 - name: Run Database
   community.docker.docker_container:
     name: my-db
-    image: wandrilledioubate/tp-devops-simple-api-database
+    image: wandrilledioubate/tp-devops-database:latest
     pull: always
     env:
       POSTGRES_DB: db
